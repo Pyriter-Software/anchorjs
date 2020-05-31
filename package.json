@@ -1,10 +1,20 @@
 {
-  "name": "anchorjs",
+  "name": "@pyriter/anchorjs",
   "version": "1.0.0",
   "description": "Dependency injection for Node",
   "main": "anchor.js",
-  "repository": "git@github.com:pyriter/anchorjs.git",
-  "author": "<pyriter.io@gmail.com>",
-  "license": "GNU",
-  "private": false
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pyriter/anchorjs.git"
+  },
+  "author": " <pyriter.io@gmail.com>",
+  "license": "UNLICENSED",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/pyriter/anchorjs/issues"
+  },
+  "homepage": "https://github.com/pyriter/anchorjs#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
