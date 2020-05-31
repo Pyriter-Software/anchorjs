@@ -1,0 +1,10 @@
+{
+  "name": "anchorjs",
+  "version": "1.0.0",
+  "description": "Dependency injection for Node",
+  "main": "anchor.js",
+  "repository": "git@github.com:pyriter/anchorjs.git",
+  "author": "<pyriter.io@gmail.com>",
+  "license": "GNU",
+  "private": false
+}
