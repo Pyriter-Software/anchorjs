@@ -56,5 +56,5 @@ class MyActionController {
 ```
 Now you can create the MyActionController object without having to know how to create the 2 dataSources
 ```javascript
-const MyActionController = new MyActionController();
+const myActionController = new MyActionController();
 ```
