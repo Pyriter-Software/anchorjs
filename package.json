@@ -1,6 +1,6 @@
 {
   "name": "@pyriter/anchorjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Dependency injection for Node",
   "main": "anchor.js",
   "repository": {
