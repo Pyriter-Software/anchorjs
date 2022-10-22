@@ -27,9 +27,17 @@ const $install = function (key, props) {
 
 function validateKey(key) {
     if (key === null || key === undefined) throw new TypeError('key must be defined');
-    if (typeof key !== 'string' || key instanceof String) throw new TypeError('key must be a string');
+    if (isNotString(key) || isNotSymbol(key)) throw new TypeError('key must be a string, or symbol');
     if (key.length === 0) throw new TypeError('key must be a nonempty string');
     if (container.has(key)) throw new Error(`Duplicate definition for ${key}. Only one module can exists with this name.`)
+}
+
+function isNotString(value) {
+    return typeof value !== 'string' || !(value instanceof String)
+}
+
+function isNotSymbol(value) {
+    return typeof value !== 'symbol'
 }
 
 function validateProps(props) {
