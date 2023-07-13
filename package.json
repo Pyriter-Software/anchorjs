@@ -16,10 +16,10 @@
   },
   "homepage": "https://github.com/pyriter/anchorjs#readme",
   "scripts": {
-    "test": "jest --silent --coverage --runInBand ",
+    "test": "jest --silent --detectOpenHandles --coverage --runInBand",
     "test-dev": "jest --watch --silent --detectOpenHandles --coverage",
     "clean": "jest --clearCache && rimraf dist",
-    "build": "npm run rimraf dist && npx tsc && cp package.json ./dist/",
+    "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "rimraf": "rimraf",
