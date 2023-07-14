@@ -4,18 +4,24 @@ Dependency Injection for Nodejs.
 
 ## Install
 ```console
-$ yarn add @pyriter/anchorjs
-```
-or
-```console
 $ npm install @pyriter/anchorjs
 ```
 
+## Features
+
+### Current
+- Seamless imports with your IDE (via typescript)
+- Allows named dependency 
+
+### Upcoming
+- Order of dependency should not matter 
+- Infer dependency by object type
+ 
 ## Usage
 Import the $install function to add objects, functions, values to the data store
 
-```javascript
-const {$install} = require('@pyriter/anchorjs');
+```typescript
+import {$install} from '@pyriter/anchorjs';
 
 // Use $install to create a singleton or return a factory object
 const foo = {
@@ -25,8 +31,8 @@ $install('foo', foo);
 ```
 
 In a separate module or file use the $inject function to retrieve the desired object, function or value
-```javascript
-const {$inject} = require('@pyriter/anchorjs');
+```typescript
+import {$inject} from '@pyriter/anchorjs';
 
 const foo = $inject('foo');
 console.log(foo.bar); // prints "Hello" to the console
@@ -34,7 +40,7 @@ console.log(foo.bar); // prints "Hello" to the console
 
 ### Using dependency injection to inject data providers
 One useful thing about dependency injection is to setup your objects and then have them inject the needed dependencies on creation
-```javascript
+```typescript
 const credentials = {
   username: "username",
   password: "password"
@@ -44,7 +50,7 @@ $install('dataStoreProvider', new DataSourceProvider(credentials));
 $install('dataSourceProvider2', new DataSourceProvider2(credentials));
 ```
 Then in a separate file, you can create another object that uses these providers without knowing how to set them up
-```javascript
+```typescript
 class MyActionController { 
   constructor({
      dataSourceProvider = $inject('dataSourceProvider'), 
@@ -55,6 +61,6 @@ class MyActionController {
 }
 ```
 Now you can create the MyActionController object without having to know how to create the 2 dataSources
-```javascript
+```typescript
 const myActionController = new MyActionController();
 ```
