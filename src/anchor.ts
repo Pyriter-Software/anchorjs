@@ -25,6 +25,10 @@ export function $install(key, props) {
   }
 }
 
+export function $clean() {
+  container.clear();
+}
+
 function validateKey(key) {
   if (key === null || key === undefined) throw new TypeError('key must be defined');
   if (!(isString(key) || isSymbol(key))) throw new TypeError('key must be a string, or symbol');
