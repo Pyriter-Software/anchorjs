@@ -10,15 +10,15 @@ interface DependencyConfig<T> extends AnchorProps<T> {
 }
 
 export enum DependencyType {
-  SINGLETON = 'singleton',
-  FACTORY = 'factory',
+  SINGLETON = 'singleton', // Creates one instance and provides it for all injections
+  FACTORY = 'factory', // Creates new instances for every injection
 }
 
 export function $inject<T>(key: string): T {
   if (!container.has(key)) throw new Error(`Cannot find module ${key}. You must install it first`);
   const dependencyConfig = container.get(key);
   const { type, provide, instance } = dependencyConfig;
-  if (type == DependencyType.FACTORY) {
+  if (type === DependencyType.FACTORY) {
     const value = provide();
     if (value == null) throw new TypeError('provide function must return a non null value');
     return value as T;

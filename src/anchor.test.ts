@@ -11,7 +11,7 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.FACTORY,
     });
-    const actual = $inject(key);
+    const actual = $inject<number>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid number, when called to inject singleton, it should retrieve it', () => {
@@ -20,7 +20,7 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.SINGLETON,
     });
-    const actual = $inject(key);
+    const actual = $inject<number>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid string, when called to inject factory, it should retrieve it', () => {
@@ -29,7 +29,7 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.FACTORY,
     });
-    const actual = $inject(key);
+    const actual = $inject<string>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid string, when called to inject singleton, it should retrieve it', () => {
@@ -38,25 +38,27 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.SINGLETON,
     });
-    const actual = $inject(key);
+    const actual = $inject<string>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid object, when called to inject factory, it should retrieve it', () => {
-    const expected = { value: 'hello' };
+    type World = { value: string };
+    const expected: World = { value: 'hello' };
     $install(key, {
       provide: () => expected,
       type: DependencyType.FACTORY,
     });
-    const actual = $inject(key);
+    const actual = $inject<World>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid object, when called to inject singleton, it should retrieve it', () => {
-    const expected = { value: 'hello' };
+    type World = { value: string };
+    const expected: World = { value: 'hello' };
     $install(key, {
       provide: () => expected,
       type: DependencyType.SINGLETON,
     });
-    const actual = $inject(key);
+    const actual = $inject<World>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid symbol, when called to inject factory, it should retrieve it', () => {
@@ -65,7 +67,7 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.FACTORY,
     });
-    const actual = $inject(key);
+    const actual = $inject<symbol>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid symbol, when called to inject singleton, it should retrieve it', () => {
@@ -74,7 +76,7 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.SINGLETON,
     });
-    const actual = $inject(key);
+    const actual = $inject<symbol>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid biginit, when called to inject factory, it should retrieve it', () => {
@@ -83,7 +85,7 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.FACTORY,
     });
-    const actual = $inject(key);
+    const actual = $inject<bigint>(key);
     expect(actual).toEqual(expected);
   });
   test('given a valid biginit, when called to inject singleton, it should retrieve it', () => {
@@ -92,7 +94,7 @@ describe('anchor', () => {
       provide: () => expected,
       type: DependencyType.SINGLETON,
     });
-    const actual = $inject(key);
+    const actual = $inject<bigint>(key);
     expect(actual).toEqual(expected);
   });
 });
