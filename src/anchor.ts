@@ -1,28 +1,41 @@
-const container = new Map();
+const container: Map<string, DependencyConfig<any>> = new Map();
 
-export function $inject(key) {
-  if (!container.has(key)) throw new Error(`Cannot find module ${key}. You must install it first`);
-  return container.get(key);
+export interface AnchorProps<T> {
+  provide: () => T;
+  type: DependencyType;
 }
 
-export function $install(key, props) {
+interface DependencyConfig<T> extends AnchorProps<T> {
+  instance?: any;
+}
+
+export enum DependencyType {
+  SINGLETON = 'singleton',
+  FACTORY = 'factory',
+}
+
+export function $inject<T>(key: string): T {
+  if (!container.has(key)) throw new Error(`Cannot find module ${key}. You must install it first`);
+  const dependencyConfig = container.get(key);
+  const { type, provide, instance } = dependencyConfig;
+  if (type == DependencyType.FACTORY) {
+    const value = provide();
+    if (value == null) throw new TypeError('provide function must return a non null value');
+    return value as T;
+  } else {
+    if (instance == null) {
+      dependencyConfig.instance = provide();
+      if (dependencyConfig.instance == null) throw new TypeError('provide function must return a non null value');
+      container.set(key, dependencyConfig);
+    }
+    return dependencyConfig.instance;
+  }
+}
+
+export function $install<T>(key, props: AnchorProps<T>) {
   validateKey(key);
   validateProps(props);
-
-  const typeOfProps = typeof props;
-
-  switch (typeOfProps) {
-    case 'object':
-    case 'number':
-    case 'string':
-    case 'symbol':
-    case 'bigint':
-      container.set(key, props);
-      break;
-    case 'function':
-    default:
-      throw new TypeError('For some reason the props that was passed in does not have a configured type');
-  }
+  container.set(key, { ...props });
 }
 
 export function $clean() {
@@ -31,20 +44,19 @@ export function $clean() {
 
 function validateKey(key) {
   if (key === null || key === undefined) throw new TypeError('key must be defined');
-  if (!(isString(key) || isSymbol(key))) throw new TypeError('key must be a string, or symbol');
+  if (!isString(key)) throw new TypeError('key must be a string, or symbol');
   if (key.length === 0) throw new TypeError('key must be a nonempty string');
   if (container.has(key))
     throw new Error(`Duplicate definition for ${key}. Only one module can exists with this name.`);
 }
 
 function isString(value) {
-  return typeof value === 'string' || !(value instanceof String);
-}
-
-function isSymbol(value) {
-  return typeof value === 'symbol';
+  return typeof value === 'string';
 }
 
 function validateProps(props) {
   if (props === null || props === undefined) throw new TypeError('props must be defined');
+  if (!(props.type === DependencyType.SINGLETON || props.type === DependencyType.FACTORY))
+    throw new TypeError('prop type must be defined');
+  if (typeof props.provide !== 'function') throw new TypeError('provide must be defined and be a function');
 }
