@@ -1,4 +1,5 @@
-import { $clean, $inject, $install, DependencyType } from './anchor.js';
+// @ts-ignore
+import { $clean, $inject, $install, DependencyType } from './anchor';
 
 describe('anchor', () => {
   const key = 'key';
