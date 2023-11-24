@@ -1,4 +1,4 @@
-import { $clean, $inject, $install, DependencyType } from './anchor';
+import { $clean, $inject, $install, DependencyType } from './anchor.js';
 
 describe('anchor', () => {
   const key = 'key';

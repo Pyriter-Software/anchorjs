@@ -1,1 +1,1 @@
-export { $inject, $install } from './anchor';
+export { $inject, $install } from './anchor.js';
