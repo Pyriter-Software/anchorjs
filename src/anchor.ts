@@ -16,7 +16,7 @@ export enum DependencyType {
 
 export function $inject<T>(key: string): T {
   if (!container.has(key)) throw new Error(`Cannot find module ${key}. You must install it first`);
-  const dependencyConfig = container.get(key);
+  const dependencyConfig: DependencyConfig<any> = container.get(key)!!;
   const { type, provide, instance } = dependencyConfig;
   if (type === DependencyType.FACTORY) {
     const value = provide();
