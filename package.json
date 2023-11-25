@@ -2,9 +2,9 @@
   "name": "@pyriter/anchorjs",
   "version": "3.0.4",
   "description": "Dependency injection for Node",
-  "main": "dist/index.js",
+  "main": "dist/anchor.js",
   "type": "module",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/anchor.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/pyriter/anchorjs.git"
