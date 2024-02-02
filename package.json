@@ -9,6 +9,12 @@
     "type": "git",
     "url": "git+ssh://git@github.com/pyriter/anchorjs.git"
   },
+  "keywords": [
+    "dependency injection",
+    "inversion of control",
+    "doj",
+    "ioc"
+  ],
   "author": "Phong Vuong",
   "license": "GPL",
   "private": false,

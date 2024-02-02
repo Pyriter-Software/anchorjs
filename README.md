@@ -114,3 +114,11 @@ type InjectProps = {
 
 The type is used to determine if the provide function call be called for every $inject (Factory) or should the value be
 retrieved by a lookup (Singleton). The default behavoir is `DependencyType.Factory`
+
+## $inject
+
+The $inject function is used to retrieve the desired object from the installation step. It takes in the return type and the key
+
+```typescript
+type $inject = (key: string)<T> => T;
+```
