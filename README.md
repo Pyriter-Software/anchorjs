@@ -46,8 +46,7 @@ console.log(foo.bar); // prints "foobar" to the console
 
 ### Using dependency injection to inject data providers
 
-One useful thing about dependency injection is to setup your objects and then have them inject the needed dependencies
-on creation
+One useful thing about dependency injection is to configure your objects and then have them injected to other objects on creation
 
 ```typescript
 import { DependencyType } from "./anchor";
@@ -76,54 +75,7 @@ Then in a separate file, you can create another object that uses these providers
 
 ```typescript
 class MyActionController {
-  constructor(dataSourceProvider = $inject<DataSourceProvider>("dataSourceProvider")) {
-  }
-
-  public async getCredentials(): Promise<DataItem> {
-    return this.dataSourceProvider.getCredentials();
-  }
-}
-```
-
-Now you can create the MyActionController object without having to know how to create the 2 dataSources
-
-```typescript
-const myActionController = new MyActionController();
-```
-
-### Using dependency injection to inject data providers
-
-One useful thing about dependency injection is to setup your objects and then have them inject the needed dependencies
-on creation
-
-```typescript
-import { DependencyType } from "./anchor";
-
-type Credential = {
-  username: string,
-  password: string
-};
-
-const credentials = {
-  username: "username",
-  password: "password"
-};
-
-type DataSourceProvider = {
-  getCredentials: () => Credential
-}
-
-$install<DataSourceProvider>('dataStoreProvider', {
-  provide: () => new DataSourceProvider(credentials),
-  type: DependencyType.FACTORY
-});
-```
-
-Then in a separate file, you can create another object that uses these providers without knowing how to set them up
-
-```typescript
-class MyActionController {
-  constructor(dataSourceProvider = $inject<DataSourceProvider>("dataSourceProvider")) {
+  constructor(readonly private dataSourceProvider = $inject<DataSourceProvider>("dataSourceProvider")) {
   }
 
   public async getCredentials(): Promise<DataItem> {
@@ -157,4 +109,5 @@ type InjectProps = {
 }
 ```
 
-The type is used to determine if the provide function call be called for every $inject (Factory) or should the value be retrieved by a lookup (Singleton). The default behavoir is `DependencyType.Factory`
+The type is used to determine if the provide function call be called for every $inject (Factory) or should the value be
+retrieved by a lookup (Singleton). The default behavoir is `DependencyType.Factory`
