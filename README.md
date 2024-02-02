@@ -46,10 +46,11 @@ console.log(foo.bar); // prints "foobar" to the console
 
 ### Using dependency injection to inject data providers
 
-One useful thing about dependency injection is to configure your objects and then have them injected to other objects on creation
+One useful thing about dependency injection is to configure your objects and then have them injected to other objects on
+creation
 
 ```typescript
-import { DependencyType } from "./anchor";
+import { $install, DependencyType } from '@pyriter/anchorjs';
 
 type Credential = {
   username: string,
@@ -74,6 +75,8 @@ $install<DataSourceProvider>('dataStoreProvider', {
 Then in a separate file, you can create another object that uses these providers without knowing how to set them up
 
 ```typescript
+import { $inject } from '@pyriter/anchorjs';
+
 class MyActionController {
   constructor(readonly private dataSourceProvider = $inject<DataSourceProvider>("dataSourceProvider")) {
   }
