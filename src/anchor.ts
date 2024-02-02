@@ -2,7 +2,7 @@ const container: Map<string, DependencyConfig<any>> = new Map();
 
 export interface AnchorProps<T> {
   provide: () => T;
-  type: DependencyType;
+  type?: DependencyType;
 }
 
 interface DependencyConfig<T> extends AnchorProps<T> {
@@ -55,8 +55,13 @@ function isString(value) {
 }
 
 function validateProps(props) {
-  if (props === null || props === undefined) throw new TypeError('props must be defined');
-  if (!(props.type === DependencyType.SINGLETON || props.type === DependencyType.FACTORY))
-    throw new TypeError('prop type must be defined');
+  if (isNullOrUndefined(props)) throw new TypeError('props must be defined');
   if (typeof props.provide !== 'function') throw new TypeError('provide must be defined and be a function');
+  if (isNullOrUndefined(props.type)) {
+    props.type = DependencyType.FACTORY;
+  }
+}
+
+function isNullOrUndefined(value?: any): boolean {
+  return value === null || value === undefined;
 }
