@@ -1,4 +1,4 @@
-const container: Map<string, DependencyConfig<any>> = new Map();
+const container: Map<string | symbol, DependencyConfig<any>> = new Map();
 
 export interface AnchorProps<T> {
   provide: () => T;
@@ -14,8 +14,8 @@ export enum DependencyType {
   FACTORY = 'factory', // Creates new instances for every injection
 }
 
-export function $inject<T>(key: string): T {
-  if (!container.has(key)) throw new Error(`Cannot find module ${key}. You must install it first`);
+export function $inject<T>(key: string | symbol): T {
+  if (!container.has(key)) throw new Error(`Cannot find module ${String(key)}. You must install it first`);
   const dependencyConfig: DependencyConfig<any> = container.get(key)!!;
   const { type, provide, instance } = dependencyConfig;
   if (type === DependencyType.FACTORY) {
@@ -44,14 +44,22 @@ export function $clean() {
 
 function validateKey(key) {
   if (key === null || key === undefined) throw new TypeError('key must be defined');
-  if (!isString(key)) throw new TypeError('key must be a string, or symbol');
-  if (key.length === 0) throw new TypeError('key must be a nonempty string');
+  if (!(isANonEmptyString(key) || isASymbol(key))) throw new TypeError('key must be a non empty string, or symbol');
   if (container.has(key))
     throw new Error(`Duplicate definition for ${key}. Only one module can exists with this name.`);
 }
 
-function isString(value) {
-  return typeof value === 'string';
+function isString(value: any): boolean {
+  return typeof value === 'string' || value instanceof String;
+}
+
+function isASymbol(value: any): boolean {
+  // @ts-ignore
+  return typeof value === 'symbol' || value instanceof Symbol;
+}
+
+function isANonEmptyString(value): boolean {
+  return isString(value) && value.length > 0;
 }
 
 function validateProps(props) {

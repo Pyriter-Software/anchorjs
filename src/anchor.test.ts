@@ -97,4 +97,15 @@ describe('anchor', () => {
     const actual = $inject<bigint>(key);
     expect(actual).toEqual(expected);
   });
+
+  test('given a valid number, when called to inject singleton using symbol, it should retrieve it', () => {
+    const expected = 1;
+    const key = Symbol();
+    $install(key, {
+      provide: () => expected,
+      type: DependencyType.SINGLETON,
+    });
+    const actual = $inject<number>(key);
+    expect(actual).toEqual(expected);
+  });
 });
