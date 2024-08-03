@@ -79,6 +79,5 @@
     "dist/**/*"
   ],
   "dependencies": {
-    "update": "^0.7.4"
   }
 }
