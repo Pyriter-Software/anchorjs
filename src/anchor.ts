@@ -1,4 +1,5 @@
 const container: Map<string | symbol, DependencyConfig<any>> = new Map();
+let allowKeyOverridesOnInstall = false;
 
 export interface AnchorProps<T> {
   provide: () => T;
@@ -42,10 +43,14 @@ export function $clean() {
   container.clear();
 }
 
+export function $configure(options: { allowDuplicateKeys: boolean }) {
+  allowKeyOverridesOnInstall = options.allowDuplicateKeys;
+}
+
 function validateKey(key) {
   if (key === null || key === undefined) throw new TypeError('key must be defined');
   if (!(isANonEmptyString(key) || isASymbol(key))) throw new TypeError('key must be a non empty string, or symbol');
-  if (container.has(key))
+  if (!allowKeyOverridesOnInstall && container.has(key))
     throw new Error(`Duplicate definition for ${key}. Only one module can exists with this name.`);
 }
 

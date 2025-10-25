@@ -1,4 +1,4 @@
-import { $clean, $inject, $install, DependencyType } from './anchor';
+import { $clean, $inject, $install, $configure, DependencyType } from './anchor';
 
 describe('anchor', () => {
   const key = 'key';
@@ -107,5 +107,17 @@ describe('anchor', () => {
     });
     const actual = $inject<number>(key);
     expect(actual).toEqual(expected);
+  });
+
+  test('given duplicate keys disabled, when installing same key twice, it should throw error', () => {
+    $install(key, { provide: () => 1 });
+    expect(() => $install(key, { provide: () => 2 })).toThrow('Duplicate definition');
+  });
+
+  test('given duplicate keys enabled, when installing same key twice, it should allow override', () => {
+    $configure({ allowDuplicateKeys: true });
+    $install(key, { provide: () => 1 });
+    $install(key, { provide: () => 2 });
+    expect($inject<number>(key)).toBe(2);
   });
 });

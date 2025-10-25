@@ -16,6 +16,7 @@ npm install @pyriter/anchorjs
 - Allows named dependency
 - Order of $install does not matter
 - Infer dependency injection by object type
+- Configurable duplicate key handling
 
 ## Usage
 
@@ -124,3 +125,17 @@ The $inject function is used to retrieve the desired object from the installatio
 ```typescript
 type $inject = (key: string)<T> => T;
 ```
+
+## $configure
+
+The $configure function allows you to modify the behavior of the dependency injection system.
+
+```typescript
+import { $configure } from '@pyriter/anchorjs';
+
+$configure({ allowKeyOverridesOnInstall: true });
+```
+
+### Options
+
+- `allowKeyOverridesOnInstall: boolean` - When `true`, allows installing the same key multiple times (latest wins). Defaults to `false` for backwards compatibility.
